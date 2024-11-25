@@ -5,8 +5,26 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import io.github.vmzakharov.ecdataframe.dataframe.*;
-import io.github.vmzakharov.ecdataframe.dsl.value.*;
+import io.github.vmzakharov.ecdataframe.dataframe.DataFrame;
+import io.github.vmzakharov.ecdataframe.dataframe.DfBooleanColumn;
+import io.github.vmzakharov.ecdataframe.dataframe.DfColumn;
+import io.github.vmzakharov.ecdataframe.dataframe.DfDateColumn;
+import io.github.vmzakharov.ecdataframe.dataframe.DfDateTimeColumn;
+import io.github.vmzakharov.ecdataframe.dataframe.DfDecimalColumn;
+import io.github.vmzakharov.ecdataframe.dataframe.DfDoubleColumn;
+import io.github.vmzakharov.ecdataframe.dataframe.DfFloatColumn;
+import io.github.vmzakharov.ecdataframe.dataframe.DfIntColumn;
+import io.github.vmzakharov.ecdataframe.dataframe.DfLongColumn;
+import io.github.vmzakharov.ecdataframe.dataframe.DfStringColumn;
+import io.github.vmzakharov.ecdataframe.dsl.value.BooleanValue;
+import io.github.vmzakharov.ecdataframe.dsl.value.DateTimeValue;
+import io.github.vmzakharov.ecdataframe.dsl.value.DateValue;
+import io.github.vmzakharov.ecdataframe.dsl.value.DecimalValue;
+import io.github.vmzakharov.ecdataframe.dsl.value.DoubleValue;
+import io.github.vmzakharov.ecdataframe.dsl.value.FloatValue;
+import io.github.vmzakharov.ecdataframe.dsl.value.IntValue;
+import io.github.vmzakharov.ecdataframe.dsl.value.LongValue;
+import io.github.vmzakharov.ecdataframe.dsl.value.Value;
 import io.github.vmzakharov.ecdataframe.util.ExceptionFactory;
 import org.eclipse.collections.api.list.ImmutableList;
 
@@ -89,8 +107,7 @@ public class DataFrameToJson
         ImmutableList<DfColumn> columns = dataFrame.getColumns();
 
         dataFrame.forEach(
-                row ->
-                {
+                row -> {
                     ObjectNode rowNode = new ObjectMapper().createObjectNode();
                     dfByRows.add(rowNode);
                     columns.forEach(col ->
