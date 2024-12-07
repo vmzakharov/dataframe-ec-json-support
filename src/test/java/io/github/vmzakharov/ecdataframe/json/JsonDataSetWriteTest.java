@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DataFrameToJsonTest
+public class JsonDataSetWriteTest
 {
     private DataFrame dataFrame;
 
@@ -25,9 +25,11 @@ public class DataFrameToJsonTest
     @Test
     public void byRowsAsDataArray()
     {
-        DataFrameToJson dfToJson = new DataFrameToJson();
+        JsonDataSet dfToJson = new JsonDataSet("json")
+                .dataByRows(true)
+                .dataOnly(true);
 
-        String jsonString = dfToJson.toJsonStringByRowsAsDataArray(this.dataFrame);
+        String jsonString = dfToJson.toJsonString(this.dataFrame);
 
         assertEquals(
                 """
@@ -42,9 +44,11 @@ public class DataFrameToJsonTest
     @Test
     public void byRowsNoSchema()
     {
-        DataFrameToJson dfToJson = new DataFrameToJson();
+        JsonDataSet dfToJson = new JsonDataSet("json")
+                .dataByRows(true)
+                .schemaIncluded(false);
 
-        String jsonString = dfToJson.toJsonStringByRows(this.dataFrame, false);
+        String jsonString = dfToJson.toJsonString(this.dataFrame);
 
         assertEquals(
             """
@@ -63,9 +67,11 @@ public class DataFrameToJsonTest
     @Test
     public void byRowsWithSchema()
     {
-        DataFrameToJson dfToJson = new DataFrameToJson();
+        JsonDataSet dfToJson = new JsonDataSet("json")
+                .dataByRows(true)
+                .schemaIncluded(true);
 
-        String jsonString = dfToJson.toJsonStringByRows(this.dataFrame, true);
+        String jsonString = dfToJson.toJsonString(this.dataFrame);
 
         assertEquals(
             """
@@ -89,9 +95,11 @@ public class DataFrameToJsonTest
     @Test
     public void byColumnsAsDataArray()
     {
-        DataFrameToJson dfToJson = new DataFrameToJson();
+        JsonDataSet dfToJson = new JsonDataSet("json")
+                .dataOnly(true)
+                .dataByRows(false);
 
-        String jsonString = dfToJson.toJsonStringByColumnsAsDataArray(this.dataFrame);
+        String jsonString = dfToJson.toJsonString(this.dataFrame);
 
         assertEquals(
             """
@@ -107,9 +115,11 @@ public class DataFrameToJsonTest
     @Test
     public void byColumnsNoSchema()
     {
-        DataFrameToJson dfToJson = new DataFrameToJson();
+        JsonDataSet dfToJson = new JsonDataSet("json")
+                .dataByRows(false)
+                .schemaIncluded(false);
 
-        String jsonString = dfToJson.toJsonStringByColumns(this.dataFrame, false);
+        String jsonString = dfToJson.toJsonString(this.dataFrame);
 
         assertEquals(
             """
@@ -126,9 +136,12 @@ public class DataFrameToJsonTest
     @Test
     public void byColumnsWithSchema()
     {
-        DataFrameToJson dfToJson = new DataFrameToJson();
+        JsonDataSet dfToJson = new JsonDataSet("json")
+                .dataByRows(false)
+                .dataOnly(false)
+                .schemaIncluded(true);
 
-        String jsonString = dfToJson.toJsonStringByColumns(this.dataFrame, true);
+        String jsonString = dfToJson.toJsonString(this.dataFrame);
 
         assertEquals(
                 """
@@ -152,9 +165,11 @@ public class DataFrameToJsonTest
     {
         DataFrame schema = this.dataFrame.schema();
 
-        DataFrameToJson dfToJson = new DataFrameToJson();
+        JsonDataSet dfToJson = new JsonDataSet("json")
+                .dataByRows(true)
+                .dataOnly(true);
 
-        String jsonString = dfToJson.toJsonStringByRowsAsDataArray(schema);
+        String jsonString = dfToJson.toJsonString(schema);
 
         assertEquals(
             """
