@@ -140,7 +140,7 @@ We assume that the Json string for each example is stored in a variable `jsonStr
 
 Since the schema is not stored in the Json object, it needs to be provided to the instance of `JsonDataSet` separately.
 
-```json
+```java
 CsvSchema schema = new CsvSchema()
     .addColumn("foo", STRING)
     .addColumn("bar", INT)
