@@ -128,25 +128,25 @@ public class JsonDataSet
     @Override
     public void openFileForReading()
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw this.notYetSupportedException();
     }
 
     @Override
     public Object next()
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw this.notYetSupportedException();
     }
 
     @Override
     public boolean hasNext()
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw this.notYetSupportedException();
     }
 
     @Override
     public void close()
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw this.notYetSupportedException();
     }
 
     private boolean schemaIsNotDefined()
@@ -223,7 +223,9 @@ public class JsonDataSet
     {
         if (this.schemaIsNotDefined())
         {
-            throw new RuntimeException("When reading a Json object, schema must be specified in the data set definition or in the json string");
+            throw ExceptionFactory
+                    .exception("When reading a Json object, schema must be specified in the data set definition or in the json string")
+                    .get();
         }
     }
 
@@ -257,7 +259,7 @@ public class JsonDataSet
         }
         else
         {
-            throw new RuntimeException("Unexpected data node type: " + dataNode.getClass().getSimpleName());
+            throw ExceptionFactory.exception("Unexpected data node type, expected array node: " + dataNode.getClass().getSimpleName()).get();
         }
     }
 
@@ -335,27 +337,6 @@ public class JsonDataSet
         columnPopulators.add(populator);
     }
 
-    public DataFrame dataFrameWithJsonSchema(String json)
-    {
-        DataFrame schemaDf = this.fromJsonString(json);
-
-        DataFrame dataFrame = new DataFrame("from json");
-
-        schemaDf.forEach(row -> {
-                if (row.getString("Stored").equals("Y"))
-                {
-                    dataFrame.addColumn(row.getString("Name"), ValueType.valueOf(row.getString("Type")));
-                }
-                else
-                {
-                    dataFrame.addColumn(row.getString("Name"), row.getString("Expression"));
-                }
-            }
-        );
-
-        return dataFrame;
-    }
-
     private JsonNode readTree(String jsonString)
     {
         try
@@ -364,7 +345,7 @@ public class JsonDataSet
         }
         catch (JsonProcessingException e)
         {
-            throw new RuntimeException("Ay Carrumba!", e);
+            throw ExceptionFactory.exception("Failed to parse JSON string").get(e);
         }
     }
 
@@ -434,7 +415,7 @@ public class JsonDataSet
             case BOOLEAN -> rowNode.put(name, ((BooleanValue) value).isTrue());
             case DATE -> rowNode.put(name, ((DateValue) value).asStringLiteral());
             case DATE_TIME -> rowNode.put(name, ((DateTimeValue) value).asStringLiteral());
-            default -> throw this.getUnsupportedColumnException(column);
+            default -> throw this.unsupportedColumnException(column);
         }
     }
 
@@ -467,7 +448,7 @@ public class JsonDataSet
             case BOOLEAN -> ((DfBooleanColumn) column).toBooleanList().forEach(values::add);
             case DATE -> ((DfDateColumn) column).toList().forEach(each -> values.add(each.toString()));
             case DATE_TIME -> ((DfDateTimeColumn) column).toList().forEach(each -> values.add(each.toString()));
-            default -> throw this.getUnsupportedColumnException(column);
+            default -> throw this.unsupportedColumnException(column);
         }
 
         columnNode.set("values", values);
@@ -475,7 +456,12 @@ public class JsonDataSet
         arrayNode.add(columnNode);
     }
 
-    private RuntimeException getUnsupportedColumnException(DfColumn column)
+    private RuntimeException notYetSupportedException()
+    {
+        return ExceptionFactory.exception("Not supported yet.").getUnsupported();
+    }
+
+    private RuntimeException unsupportedColumnException(DfColumn column)
     {
         return ExceptionFactory
                 .exception("Cannot convert values in column " + column.getName() + " of type " + column.getType() + " to Json")
