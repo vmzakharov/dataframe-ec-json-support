@@ -2,18 +2,18 @@
 
 ## Overview
 
-This library add support for reading and writing dataframe-ec data frames in JSON data format. 
+This library adds support for reading and writing dataframe-ec data frames in JSON data format. 
 
-Currently, it supports reading and writing dataframe-ec data frames as Json strings.
+Currently, it supports reading and writing dataframe-ec data frames as JSON strings.
 
 ## JsonDataSet class
 
-The main class for dealing with Json serialization is `JsonDataSet`. It supports the following options for Json objects: 
+The main class for dealing with JSON serialization is `JsonDataSet`. It supports the following options for JSON objects: 
 
 * Object structure: just the data frame data or data and metadata
 * Metadata (if specified):
   * Data frame name
-  * Data frame schema. NOTE: if the schema is not embedded in the Json object, the schema needs to be specified in the JsonDataSet instance.
+  * Data frame schema. NOTE: if the schema is not embedded in the JSON object, the schema needs to be specified in the JsonDataSet instance.
 * Data organization: by rows or by columns   
 
 ## Examples
@@ -41,7 +41,7 @@ JsonDataSet dfToJson = new JsonDataSet("json")
 String jsonString = dfToJson.toJsonString(this.dataFrame);
 ```
 
-Result: an array of Json objects, each object representing a single row of the dataframe
+Result: an array of JSON objects, each object representing a single row of the dataframe
 
 ```json
 [
@@ -61,7 +61,7 @@ JsonDataSet dfToJson = new JsonDataSet("json")
 String jsonString = dfToJson.toJsonString(this.dataFrame);
 ```
 
-Result: an array of Json objects, each object representing a column of the dataframe
+Result: an array of JSON objects, each object representing a column of the dataframe
 
 ```json
 [
@@ -80,7 +80,7 @@ JsonDataSet dfToJson = new JsonDataSet("json")
 String jsonString = dfToJson.toJsonString(this.dataFrame);
 ```
 
-Result: an object representing the data frame with attributes for the data frame name, data frame schema, and data frame data, where the data is stored as an array of Json objects, each object representing a single row of the dataframe
+Result: an object representing the data frame with attributes for the data frame name, data frame schema, and data frame data, where the data is stored as an array of JSON objects, each object representing a single row of the dataframe
 
 ```json
 {
@@ -108,7 +108,7 @@ JsonDataSet dfToJson = new JsonDataSet("json")
 String jsonString = dfToJson.toJsonString(this.dataFrame);
 ```
 
-Result: an object representing the data frame with attributes for the data frame name, data frame schema, and data frame data, where the data is stored as an array of Json objects, each object representing a single row of the dataframe
+Result: an object representing the data frame with attributes for the data frame name, data frame schema, and data frame data, where the data is stored as an array of JSON objects, each object representing a single row of the dataframe
 
 ```json
 {
@@ -125,7 +125,7 @@ Result: an object representing the data frame with attributes for the data frame
 
 #### Sample Data
 
-We assume that the Json string for each example is stored in a variable `jsonString`. 
+We assume that the JSON string for each example is stored in a variable `jsonString`. 
 
 #### Data Only, Organized by Rows
 
@@ -138,7 +138,7 @@ We assume that the Json string for each example is stored in a variable `jsonStr
 ]
 ```
 
-Since the schema is not stored in the Json object, it needs to be provided to the instance of `JsonDataSet` separately.
+Since the schema is not stored in the JSON object, it needs to be provided to the instance of `JsonDataSet` separately.
 
 ```java
 CsvSchema schema = new CsvSchema()
@@ -167,7 +167,7 @@ DataFrame dataFrame = dataSet.fromJsonString(jsonString);
 }
 ```
 
-Since the schema is not stored in the Json object, it needs to be provided to the instance of `JsonDataSet` separately.
+Since the schema is not stored in the JSON object, it needs to be provided to the instance of `JsonDataSet` separately.
 
 ```java
 CsvSchema schema = new CsvSchema()
@@ -200,7 +200,7 @@ DataFrame dataFrame = dataSet.fromJsonString(jsonString);
 }
 ```
 
-Since the schema **is** stored in the Json object, it does not need to be provided to the instance of `JsonDataSet` separately.
+Since the schema **is** stored in the JSON object, it does not need to be provided to the instance of `JsonDataSet` separately.
 
 ```java
 JsonDataSet dataSet = new JsonDataSet("data set")
