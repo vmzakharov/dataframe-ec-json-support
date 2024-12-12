@@ -16,6 +16,20 @@ The main class for dealing with JSON serialization is `JsonDataSet`. It supports
   * Data frame schema. NOTE: if the schema is not embedded in the JSON object, the schema needs to be specified in the JsonDataSet instance.
 * Data organization: by rows or by columns   
 
+## Supported Types
+
+The following data frame column types are supported for serializing data frames to/from JSON:
+
+* STRING
+* LONG
+* DOUBLE
+* INT
+* FLOAT
+* DATE
+* DATE_TIME
+* DECIMAL
+* BOOLEAN
+
 ## Examples
 
 ### Serializing a Data Frame to a String
