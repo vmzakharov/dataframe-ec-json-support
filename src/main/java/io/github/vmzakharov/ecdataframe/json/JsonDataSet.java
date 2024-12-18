@@ -41,8 +41,17 @@ import org.eclipse.collections.impl.factory.Maps;
 import static io.github.vmzakharov.ecdataframe.dsl.value.ValueType.STRING;
 import static io.github.vmzakharov.ecdataframe.util.ExceptionFactory.exceptionByKey;
 
+/**
+ * The main class for data frame JSON serialization support. It supports serializing and deserializing data frames
+ * to/from JSON strings structured as follows:
+ * <ul>
+ *   <li>Data frame data organized by rows or by columns</li>
+ *   <li>Includes just the data frame data or both data and metadata</li>
+ *   <li>Metadata (if specified) can include Data frame name and (optionally) Data frame schema</li>
+ * </ul>
+ */
 public class JsonDataSet
-        extends DataSetAbstract
+extends DataSetAbstract
 {
     private boolean dataByRows = true;
     private boolean schemaIncluded = false;
@@ -50,22 +59,41 @@ public class JsonDataSet
 
     private CsvSchema schema;
 
+    /**
+     * Create a new instance of a JSON data set
+     * @param newName the name of the newly created data set
+     */
     public JsonDataSet(String newName)
     {
         super(newName);
     }
 
+    /**
+     * Create a new instance of a JSON data set
+     * @param newName the name of the newly created data set
+     * @param newSchema the schema describing the dataframe and/or data in the JSON object
+     */
     public JsonDataSet(String newName, CsvSchema newSchema)
     {
         super(newName);
         this.schema = newSchema;
     }
 
+    /**
+     * Indicates if the data frame data is organized by rows in the JSON object
+     * @return {@code true} if the data frame data is organized by rows in the JSON object, {@code false} if the data
+     * is organized by columns
+     */
     public boolean dataByRows()
     {
         return this.dataByRows;
     }
 
+    /**
+     * Indicates if the data frame data is organized by columns in the JSON object
+     * @return {@code true} if the data frame data is organized by columns in the JSON object, {@code false} if the data
+     * is organized by columns
+     */
     public boolean dataByColumns()
     {
         return !this.dataByRows();
@@ -89,6 +117,10 @@ public class JsonDataSet
         return this;
     }
 
+    /**
+     * @return {@code true} if the data frame schema is included in the metadata stored in the JSON object,
+     * {@code false} otherwise
+     */
     public boolean schemaIncluded()
     {
         return this.schemaIncluded;
@@ -106,6 +138,9 @@ public class JsonDataSet
         return this;
     }
 
+    /**
+     * @return {@code true} if the data frame metadata stored in the JSON object, {@code false} otherwise
+     */
     public boolean dataOnly()
     {
         return this.dataOnly;
@@ -399,7 +434,7 @@ public class JsonDataSet
         return dfByRows;
     }
 
-    public void addValueToRowNode(ObjectNode rowNode, DfColumn column, int rowIndex)
+    private void addValueToRowNode(ObjectNode rowNode, DfColumn column, int rowIndex)
     {
         Value value = column.getValue(rowIndex);
         String name = column.getName();
