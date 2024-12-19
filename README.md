@@ -2,9 +2,21 @@
 
 ## Overview
 
-This library adds support for reading and writing dataframe-ec data frames in JSON data format. 
+This library adds support for reading and writing [dataframe-ec](https://github.com/vmzakharov/dataframe-ec) data frames in JSON data format. 
 
 Currently, it supports reading and writing dataframe-ec data frames as JSON strings.
+
+## Where to Get It
+
+Get the latest release of `dataframe-ec-json-support` here:
+
+```xml
+<dependency>
+  <groupId>io.github.vmzakharov</groupId>
+  <artifactId>dataframe-ec-json-support</artifactId>
+  <version>0.0.1</version>
+</dependency>
+```
 
 ## JsonDataSet class
 
