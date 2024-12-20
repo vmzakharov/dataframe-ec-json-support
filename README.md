@@ -14,7 +14,7 @@ Get the latest release of `dataframe-ec-json-support` here:
 <dependency>
   <groupId>io.github.vmzakharov</groupId>
   <artifactId>dataframe-ec-json-support</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
 </dependency>
 ```
 
@@ -41,6 +41,8 @@ The following data frame column types are supported for serializing data frames 
 * DATE_TIME
 * DECIMAL
 * BOOLEAN
+
+Reading and writing `null` values is supported for all the supported types.
 
 ## Examples
 
