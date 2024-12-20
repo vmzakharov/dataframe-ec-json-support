@@ -331,7 +331,7 @@ extends DataSetAbstract
 
             for (int valueIndex = 0; valueIndex < columnValues.size(); valueIndex++)
             {
-                columnPopulator.value(columnValues.get(valueIndex).asText());
+                columnPopulator.value(this.nodeTextOrNull(columnValues.get(valueIndex)));
             }
         }
     }
@@ -343,9 +343,14 @@ extends DataSetAbstract
             JsonNode rowObject = rows.get(rowIndex);
             this.schema.getColumns()
                        .forEachInBoth(columnPopulators,
-                           (col, populator) -> populator.value(rowObject.get(col.getName()).asText())
+                               (col, populator) -> populator.value(this.nodeTextOrNull(rowObject.get(col.getName())))
                        );
         }
+    }
+
+    private String nodeTextOrNull(JsonNode node)
+    {
+        return node.isNull() ? null : node.asText();
     }
 
     private void addDataFrameColumn(DataFrame df, CsvSchemaColumn schemaCol, MutableList<Procedure<String>> columnPopulators)
@@ -441,6 +446,7 @@ extends DataSetAbstract
 
         switch (value.getType())
         {
+            case VOID -> rowNode.putNull(name);
             case LONG -> rowNode.put(name, ((LongValue) value).longValue());
             case INT -> rowNode.put(name, ((IntValue) value).intValue());
             case FLOAT -> rowNode.put(name, ((FloatValue) value).floatValue());
@@ -472,18 +478,75 @@ extends DataSetAbstract
 
         ArrayNode values = new ObjectMapper().createArrayNode();
 
-        switch (column.getType())
+        int columnSize = column.getSize();
+
+        ArrayNode unused;
+        if (column instanceof DfLongColumn longColumn)
         {
-            case LONG -> ((DfLongColumn) column).asLongIterable().forEach(values::add);
-            case INT -> ((DfIntColumn) column).asIntIterable().forEach(values::add);
-            case FLOAT -> ((DfFloatColumn) column).asFloatIterable().forEach(values::add);
-            case DOUBLE -> ((DfDoubleColumn) column).asDoubleIterable().forEach(values::add);
-            case DECIMAL -> ((DfDecimalColumn) column).toList().forEach(values::add);
-            case STRING -> ((DfStringColumn) column).toList().forEach(values::add);
-            case BOOLEAN -> ((DfBooleanColumn) column).toBooleanList().forEach(values::add);
-            case DATE -> ((DfDateColumn) column).toList().forEach(each -> values.add(each.toString()));
-            case DATE_TIME -> ((DfDateTimeColumn) column).toList().forEach(each -> values.add(each.toString()));
-            default -> throw this.unsupportedColumnException(column);
+            for (int rowIndex = 0; rowIndex < columnSize; rowIndex++)
+            {
+                unused = longColumn.isNull(rowIndex) ? values.addNull() : values.add(longColumn.getLong(rowIndex));
+            }
+        }
+        else if (column instanceof DfIntColumn intColumn)
+        {
+            for (int rowIndex = 0; rowIndex < columnSize; rowIndex++)
+            {
+                unused = (intColumn.isNull(rowIndex)) ? values.addNull() : values.add(intColumn.getInt(rowIndex));
+            }
+        }
+        else if (column instanceof DfFloatColumn floatColumn)
+        {
+            for (int rowIndex = 0; rowIndex < columnSize; rowIndex++)
+            {
+                unused = (floatColumn.isNull(rowIndex)) ? values.addNull() : values.add(floatColumn.getFloat(rowIndex));
+            }
+        }
+        else if (column instanceof DfDoubleColumn doubleColumn)
+        {
+            for (int rowIndex = 0; rowIndex < columnSize; rowIndex++)
+            {
+                unused = (doubleColumn.isNull(rowIndex)) ? values.addNull() : values.add(doubleColumn.getDouble(rowIndex));
+            }
+        }
+        else if (column instanceof DfBooleanColumn booleanColumn)
+        {
+            for (int rowIndex = 0; rowIndex < columnSize; rowIndex++)
+            {
+                unused = (booleanColumn.isNull(rowIndex)) ? values.addNull() : values.add(booleanColumn.getBoolean(rowIndex));
+            }
+        }
+        else if (column instanceof DfStringColumn stringColumn)
+        {
+            for (int rowIndex = 0; rowIndex < columnSize; rowIndex++)
+            {
+                unused = (stringColumn.isNull(rowIndex)) ? values.addNull() : values.add(stringColumn.getTypedObject(rowIndex));
+            }
+        }
+        else if (column instanceof DfDateColumn dateColumn)
+        {
+            for (int rowIndex = 0; rowIndex < columnSize; rowIndex++)
+            {
+                unused = (dateColumn.isNull(rowIndex)) ? values.addNull() : values.add(dateColumn.getValueAsStringLiteral(rowIndex));
+            }
+        }
+        else if (column instanceof DfDateTimeColumn dateTimeColumn)
+        {
+            for (int rowIndex = 0; rowIndex < columnSize; rowIndex++)
+            {
+                unused = (dateTimeColumn.isNull(rowIndex)) ? values.addNull() : values.add(dateTimeColumn.getValueAsStringLiteral(rowIndex));
+            }
+        }
+        else if (column instanceof DfDecimalColumn decimalColumn)
+        {
+            for (int rowIndex = 0; rowIndex < columnSize; rowIndex++)
+            {
+                unused = (decimalColumn.isNull(rowIndex)) ? values.addNull() : values.add(decimalColumn.getTypedObject(rowIndex));
+            }
+        }
+        else
+        {
+            throw this.unsupportedColumnException(column);
         }
 
         columnNode.set("values", values);
