@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.vmzakharov</groupId>
     <artifactId>dataframe-ec-json-support</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4-SNAPSHOT</version>
 
     <packaging>jar</packaging>
     <name>dataframe-ec-json-support</name>
-    <description>A tabular data structure based on the Eclipse Collections framework</description>
+    <description>A library for reading/writing dataframe-ec data frames from/to JSON</description>
     <url>https://github.com/vmzakharov/dataframe-ec</url>
 
     <licenses>
