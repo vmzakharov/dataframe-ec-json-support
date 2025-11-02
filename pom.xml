@@ -41,7 +41,7 @@
         <checkstyle.version>8.41</checkstyle.version>
         <checkstyle.plugin.version>3.1.2</checkstyle.plugin.version>
 
-        <dataframe-ec.version>1.2.0</dataframe-ec.version>
+        <dataframe-ec.version>1.4.0</dataframe-ec.version>
 
         <jackson.version>2.18.1</jackson.version>
     </properties>
