@@ -124,6 +124,8 @@ extends DataSetAbstract
     }
 
     /**
+     * Indicates whether the data frame schema is included in the JSON object
+     *
      * @return {@code true} if the data frame schema is included in the metadata stored in the JSON object,
      * {@code false} otherwise
      */
@@ -145,6 +147,8 @@ extends DataSetAbstract
     }
 
     /**
+     * Indicates whether the JSON object contains the data frame metadata.
+     *
      * @return {@code true} if the data frame metadata stored in the JSON object, {@code false} otherwise
      */
     public boolean dataOnly()
