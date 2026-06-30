@@ -43,7 +43,7 @@
 
         <dataframe-ec.version>1.4.0</dataframe-ec.version>
 
-        <jackson.version>2.18.1</jackson.version>
+        <jackson.version>2.22.0</jackson.version>
     </properties>
 
     <dependencies>
