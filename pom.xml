@@ -27,9 +27,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git@github.com:vmzakharov/dataframe-ec-arrow-support.git</connection>
-        <developerConnection>scm:git:git@github.com:vmzakharov/dataframe-ec-arrow-support.git</developerConnection>
-        <url>https://github.com/vmzakharov/dataframe-ec-arrow-support</url>
+        <connection>scm:git:git@github.com:vmzakharov/dataframe-ec-json-support.git</connection>
+        <developerConnection>scm:git:git@github.com:vmzakharov/dataframe-ec-json-support.git</developerConnection>
+        <url>https://github.com/vmzakharov/dataframe-ec-json-support</url>
         <tag>HEAD</tag>
     </scm>
 
@@ -43,7 +43,7 @@
 
         <dataframe-ec.version>1.4.0</dataframe-ec.version>
 
-        <jackson.version>2.22.0</jackson.version>
+        <jackson.version>2.22.1</jackson.version>
     </properties>
 
     <dependencies>
