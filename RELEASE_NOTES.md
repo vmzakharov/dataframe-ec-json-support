@@ -1,4 +1,10 @@
 # Releases
+### 0.0.5
+* No functional changes, updates dependencies 
+
+### 0.0.4
+* No functional changes, minor updates
+
 ### 0.0.3
 * No functional changes, a refactoring release to take advantage of `dataframe-ec 1.2.0` changes
 
